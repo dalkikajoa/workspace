@@ -1,8 +1,9 @@
 # Table of contents
 
-* [Page](README.md)
-
-## 새소식 <a href="#notice" id="notice"></a>
-
-* [보도자료](notice/board.md)
-* [공지사항](notice/notice.md)
+* [디지털플랫폼정부](README.md)
+  * [기본원칙](undefined/undefined.md)
+  * [비전/핵심추진과제](undefined/undefined-1.md)
+  * [위원회 회의](undefined/undefined-2.md)
+* [새소식](new/README.md)
+  * [공지사항](new/notice.md)
+  * [보도자료](new/board.md)
