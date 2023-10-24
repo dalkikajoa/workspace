@@ -18,6 +18,7 @@
   - 이러한 표준화된 서비스의 규격화가 어느정도 이루어져야만 마켓플레이스 등에서 유통될 수 있는 형식의 서비스 및 컴포넌트가 될 수 있으며, 이를 가칭으로 PBC (Packaged Business Service) 라고 일컬음 []
 
 * 설계 원칙
+
 ![proposed event driven DPG architecture](image-2.png)
 
   - 시스템 통합에 관련한 보다 유연한 연동을 위한 Composable Enterprise 개념을 차용함
@@ -55,7 +56,9 @@
   - 설계원칙에 + CNA attibutes, digital twin composable enterprises 등을 출처로
 <br><br>
 * 아키텍처 - 기존 레가시, 동기/비동기, acid tx vs. base tx - tp monitor, RBAC, scale, 정부24, 개인톡, …활동계획, 킬러시나리오→ Reference Implementation Open Source Project
+
 ![Alt text](image-3.png)
+
   - 이벤트 스트림 플랫폼
     - 이벤트 스트림 브로커
 
@@ -173,6 +176,7 @@ MLOps 아키텍처를 구성함으로써, 머신 러닝 모델을 효과적으�
   마이크로 프론트엔드 매시업 플랫폼의 예시로는 single-spa, qiankun, openmircoservice 등이 있습니다. 이러한 플랫폼은 기존의 애플리케이션을 마이크로 서비스로 변환하여 관리할 수 있게 하고, 다양한 프론트엔드 기술을 유연하게 사용할 수 있도록 도와줍니다.
 
 ![Alt text](image-6.png)
+
 ![Alt text](image-7.png)
 
   웹컴포넌트 표준의 적용
@@ -269,18 +273,18 @@ Event Driven Architecture는 PDS에서 이벤트가 발생할 때 데이터를 �
 <br><br>
 참고문헌
 
-1. Evolving API Management into a Harmonized API-led Interoperability Framework, https://medium.com/api-center/evolving-api-management-into-a-harmonized-api-led-interoperability-framework-c35c7c8c4674
-2. 분산형 데이터 분석 아키텍처-데이터 매쉬, 조대협, https://bcho.tistory.com/1379
-3. Entando Microfrontend Developer Portal, https://developer.entando.com/v6.3/tutorials/micro-frontends/
-4. https://www.toptal.com/front-end/micro-frontends-strengths-benefits
-5. How government can deliver streamlined life event experiences, Deloitte. https://www2.deloitte.com/us/en/insights/industry/public-sector/citizen-centric-government.html
+1. Evolving API Management into a Harmonized API-led Interoperability Framework, <https://medium.com/api-center/evolving-api-management-into-a-harmonized-api-led-interoperability-framework-c35c7c8c4674>
+2. 분산형 데이터 분석 아키텍처-데이터 매쉬, 조대협, <https://bcho.tistory.com/1379>
+3. Entando Microfrontend Developer Portal, <https://developer.entando.com/v6.3/tutorials/micro-frontends/>
+4. <https://www.toptal.com/front-end/micro-frontends-strengths-benefits>
+5. How government can deliver streamlined life event experiences, Deloitte. <https://www2.deloitte.com/us/en/insights/industry/public-sector/citizen-centric-government.html>
 6. Designing Event-Driven Systems, Confluent
-7. 왜 IoT 와 마이크로서비스는 Event Driven API 가 필요한가? Solace, https://solace.com/blog/asyncapi-vs-openapi/?fbclid=IwAR0QnJFZAO5s4ItaiLDKa2dP3_VyFbd6c9kkOtp0oddNS1CtM-ZKqsJKyOI
-8. 데이터 메쉬 - https://www.slideshare.net/HostedbyConfluent/apache-kafka-and-the-data-mesh-michael-noll-confluent,
-9. 데이터 레이크와 데이터 메쉬는 어떻게 다른가? https://www.kai-waehner.de/blog/2022/06/27/data-warehouse-vs-data-lake-vs-data-streaming-friends-enemies-frenemies/amp/
-10. Composable Enterprises, BPTrends, https://www.businessprocessincubator.com/content/the-value-of-a-composable-digital-twin/
+7. 왜 IoT 와 마이크로서비스는 Event Driven API 가 필요한가? Solace, <https://solace.com/blog/asyncapi-vs-openapi/?fbclid=IwAR0QnJFZAO5s4ItaiLDKa2dP3_VyFbd6c9kkOtp0oddNS1CtM-ZKqsJKyOI>
+8. 데이터 메쉬 - <https://www.slideshare.net/HostedbyConfluent/apache-kafka-and-the-data-mesh-michael-noll-confluent,>
+9. 데이터 레이크와 데이터 메쉬는 어떻게 다른가? <https://www.kai-waehner.de/blog/2022/06/27/data-warehouse-vs-data-lake-vs-data-streaming-friends-enemies-frenemies/amp/>
+10. Composable Enterprises, BPTrends, <https://www.businessprocessincubator.com/content/the-value-of-a-composable-digital-twin/>
 11. 가트너 아우터 아키텍처, Use Gartner’s Reference Model to Deliver Intelligent Composable Business Applications, Natis et al., 14 October 2020.
-12. Microservices Architecture, 장진영, https://docs.google.com/presentation/d/1fZZCwGps0mz1AFuRFdb4ss2R4I539nze/edit?usp=share_link&ouid=118263857238912808893&rtpof=true&sd=true
+12. Microservices Architecture, 장진영, <https://docs.google.com/presentation/d/1fZZCwGps0mz1AFuRFdb4ss2R4I539nze/edit?usp=share_link&ouid=118263857238912808893&rtpof=true&sd=true>
 13. Securing APIs with an Integrated Security Framework | by TRGoodwill | API Central | Medium,
 14. What is Backstage? | Backstage Software Catalog and Developer Platform
 
@@ -288,15 +292,3 @@ Event Driven Architecture는 PDS에서 이벤트가 발생할 때 데이터를 �
 국가 DevOps 플랫폼
 
 ![biz/dev/ops](image-10.png)
-
-```html
-<!-- HTML 시작 -->
-<!DOCTYPE html>
-<html lang=ko>
-  <table style="border: 1px;">
-    <tr>
-    </tr>
-  </table>
-</html>
-<!-- HTML 끝 -->
-```
