@@ -1,37 +1,37 @@
 # 데이터 파이프라인 Specification
 
 * 기존 데이터 파이프라인 시스템의 한계 및 문제점
-  * 다양한 서비스들의 자유로운 연동과 실시간 대응, 서비스간 트랜잭션 처리등이 불가능: 다양한 플랫폼 기반(java, python, node..등)의 설치형 서비스 혹은 SaaS 서비스 들이 자유롭게 통합되고 서비스간 데이터 공유 및 데이터 쓰기(mutation) 의 트랜잭션 관리가 어려움
-  * 서비스간의 강한 결합도: 데이터베이스 공유 혹은 직접 액세스, 혹은 중앙집중식 EAI 나 /동기식 서비스 연동 방식에 의한 연동으로 서비스간 결합도가 높아 시스템 변경에 대한 자율성 저하, 장애 발생시 장애 전파 문제 발생
-  * 이는, 전체적으로 국민 서비스의 개선이나 서비스 질을 저해하는 요인으로 작용하고 있음
-  * 정부 시스템 내의 데이터 (사용자 데이터, 처리 데이터, 환경데이터,...) 등, 빅데이터 분석용도의 국가 자원이 될 수 있는 데이터들이 체계적으로 관리되지 못하고 있으며, 특히 이후 시계열 분석 등의 토대가 될 수 있도록 시계열의 Historical 한 데이터의 형식으로 보존되지 못하고 있음.
+  - 다양한 서비스들의 자유로운 연동과 실시간 대응, 서비스간 트랜잭션 처리등이 불가능: 다양한 플랫폼 기반(java, python, node..등)의 설치형 서비스 혹은 SaaS 서비스 들이 자유롭게 통합되고 서비스간 데이터 공유 및 데이터 쓰기(mutation) 의 트랜잭션 관리가 어려움
+  - 서비스간의 강한 결합도: 데이터베이스 공유 혹은 직접 액세스, 혹은 중앙집중식 EAI 나 /동기식 서비스 연동 방식에 의한 연동으로 서비스간 결합도가 높아 시스템 변경에 대한 자율성 저하, 장애 발생시 장애 전파 문제 발생
+  - 이는, 전체적으로 국민 서비스의 개선이나 서비스 질을 저해하는 요인으로 작용하고 있음
+  - 정부 시스템 내의 데이터 (사용자 데이터, 처리 데이터, 환경데이터,...) 등, 빅데이터 분석용도의 국가 자원이 될 수 있는 데이터들이 체계적으로 관리되지 못하고 있으며, 특히 이후 시계열 분석 등의 토대가 될 수 있도록 시계열의 Historical 한 데이터의 형식으로 보존되지 못하고 있음.
 
 ![solution: event driven architecture](image-1.png)
 
 * 개선 방안
-  * Open API/Async API 등 Open 된 API 를 기반으로 서비스간 동기/비동기식 연동을 가능하게 함
-  * 트랜잭션 처리에 있어서는 이벤트 기반의 통합 서비스/데이터 파이프라인을 구축하여 다양한 플랫폼 기반의 서비스간 결합도를 최소화하면서 시스템간 연동이 이루어질 수 있도록 함.
-  * 세부적으로, 이벤트 기반의 Publish / Subscribe 형식의 비동기식 / 구독형 연동으로, 각 서비스나 설치형 서비스들이 각자의 플랫폼으로 구축될 수 있도록 하며 중앙의 데이터에 직접적인 액세스 없이도 각 서비스들은 이벤트 데이터를 수신하여 자체적인 데이터베이스 설계를 기반으로 한 Polyglot Database 를 구축할 수 있도록 함
-  * 각 부처별 데이터 포맷의 통일이 어렵기 때문에 데이터 통합을 위한 Pub/Sub 기반으로 연동하여야 하며 Anti-corruption Layer(어댑터 및 데이터 매퍼) 를 기반으로 연동한다.
-  * API 는 중앙의 API management tool 에 의하여 관리될 수 있도록 함. API management 에서는 API 가 Frontend API 인 경우 iframe API, script api, , Backend API 인 경우 Sync/Async 두가지 모델에 대한 표준 API 정의 Spec 인 Open API\[] 와 Async API\[] 를 적용함
-  * 셀프서비스화/자동화된 프로비져닝을 위한 서비스 메타데이터 표준화: 서비스 사용자 (국민, 공공기관, 기업) 들이 다양한 공공서비스 및 민간 서비스들을 간단한 low-code/no-code 툴을 통하여 매시업하여 곧바로 통합된 서비스를 제공받을 수 있도록 하기 위해서는 일반 SaaS형식인 경우 서비스 가격 정보, 보안/인증, 데이터연동API, 프론트엔드API, 서비스연동API, 서비스 관리 / 커스터마이징 / 설정 API 등의 메타데이터들을 엑세스 할 수 있는 URI를 제공해주어야 하며, 설치형 서비스인 경우의 라이센싱 가격, 배포 인프라별 프로비저닝 자동화 스크립트 혹은 쿠버네티스의 경우 이미지명 혹은 helm chart 등의 설치 자동화 메타데이터가 표준화된 방식으로 제공되어야 함
-  * 이러한 표준화된 서비스의 규격화가 어느정도 이루어져야만 마켓플레이스 등에서 유통될 수 있는 형식의 서비스 및 컴포넌트가 될 수 있으며, 이를 가칭으로 PBC (Packaged Business Service) 라고 일컬음 \[]
+  - Open API/Async API 등 Open 된 API 를 기반으로 서비스간 동기/비동기식 연동을 가능하게 함
+  - 트랜잭션 처리에 있어서는 이벤트 기반의 통합 서비스/데이터 파이프라인을 구축하여 다양한 플랫폼 기반의 서비스간 결합도를 최소화하면서 시스템간 연동이 이루어질 수 있도록 함.
+  - 세부적으로, 이벤트 기반의 Publish / Subscribe 형식의 비동기식 / 구독형 연동으로, 각 서비스나 설치형 서비스들이 각자의 플랫폼으로 구축될 수 있도록 하며 중앙의 데이터에 직접적인 액세스 없이도 각 서비스들은 이벤트 데이터를 수신하여 자체적인 데이터베이스 설계를 기반으로 한 Polyglot Database 를 구축할 수 있도록 함
+  - 각 부처별 데이터 포맷의 통일이 어렵기 때문에 데이터 통합을 위한 Pub/Sub 기반으로 연동하여야 하며 Anti-corruption Layer(어댑터 및 데이터 매퍼) 를 기반으로 연동한다.
+  - API 는 중앙의 API management tool 에 의하여 관리될 수 있도록 함. API management 에서는 API 가 Frontend API 인 경우 iframe API, script api, , Backend API 인 경우 Sync/Async 두가지 모델에 대한 표준 API 정의 Spec 인 Open API\[] 와 Async API\[] 를 적용함
+  - 셀프서비스화/자동화된 프로비져닝을 위한 서비스 메타데이터 표준화: 서비스 사용자 (국민, 공공기관, 기업) 들이 다양한 공공서비스 및 민간 서비스들을 간단한 low-code/no-code 툴을 통하여 매시업하여 곧바로 통합된 서비스를 제공받을 수 있도록 하기 위해서는 일반 SaaS형식인 경우 서비스 가격 정보, 보안/인증, 데이터연동API, 프론트엔드API, 서비스연동API, 서비스 관리 / 커스터마이징 / 설정 API 등의 메타데이터들을 엑세스 할 수 있는 URI를 제공해주어야 하며, 설치형 서비스인 경우의 라이센싱 가격, 배포 인프라별 프로비저닝 자동화 스크립트 혹은 쿠버네티스의 경우 이미지명 혹은 helm chart 등의 설치 자동화 메타데이터가 표준화된 방식으로 제공되어야 함
+  - 이러한 표준화된 서비스의 규격화가 어느정도 이루어져야만 마켓플레이스 등에서 유통될 수 있는 형식의 서비스 및 컴포넌트가 될 수 있으며, 이를 가칭으로 PBC (Packaged Business Service) 라고 일컬음 []
 * 설계 원칙
 
 ![proposed event driven DPG architecture](image-2.png)
 
-* 시스템 통합에 관련한 보다 유연한 연동을 위한 Composable Enterprise 개념을 차용함
-  * Composable Enterprise는 비즈니스 요구 사항을 빠르게 충족하고 조정할 수 있는 유연하고 모듈화된 비즈니스 아키텍처를 지원하기 위해 설계된 개념입니다. 이를 위해서는 비즈니스 능력을 모듈화된 형태로 개발하고 배포할 수 있어야 합니다.
-  * Packaged Business Capabilities(PBC)는 이러한 목표를 달성하기 위한 전략 중 하나로, 비즈니스 능력을 모듈화된 형태로 개발하여 조립 가능한 구성 요소로 제공합니다. 이를 통해 조립 가능한 PBC를 이용하여 비즈니스 요구 사항을 더 빠르게 구현할 수 있습니다.
-  * CBD(Componet-Based Development)에서는 컴포넌트 또는 마이크로서비스가 PBC와 유사한 개념입니다. 그러나 PBC는 컴포넌트 또는 마이크로서비스보다 더 큰 범위의 비즈니스 능력을 가지고 있으며, 비즈니스 능력을 개발하는 것뿐만 아니라, 비즈니스 프로세스와 조직 구조를 포함한 비즈니스 전략을 모듈화하여 제공합니다. 따라서 PBC는 비즈니스 요구 사항을 더 적극적으로 충족시키고, 조직 전반에 걸쳐 재사용이 가능한 능력을 제공합니다.
-* 다음은 각 서비스들이 PBC 의 형태가 되기 위하여 갖추어야 할 요건 들입니다:
-  * Self-descriptive : Open API (sync API), Async API, endpoint url 정보, image 정보, 구현체, 빌드 방법, Dockerfile 등의 메타데이터를 포함하고 있어야 한다. diff: 일반 helm chart에 비해…
-  * Self-contained: Front-end 요소, backend, database, 내부적인 event platform이나 infra 요소들을 모두 가지고 있고 이들을 설치 구동할 수 있는 provisioning script 가 내재된 operator 형태로 존재한다.
-  * Build-time 의 지원 (ci/cd)가 포함된다. on-prem설치, license 의 유형이 saas 형식이 아닌 licensed 혹은 오픈소스들의 빌드 단계를 동반하는 연동이 이루어질 수 있다.
-  * 특정기술에 종속되지 않아야 한다: webcomponents, open api/async api, cloud events, REST, CRI runtime (image) 등의 표준 혹은 적어도 10년 이상 유지될 수 있는 사실 표준을 준수해야 한다.
-  * business bounded: DDD 설계 전략이 녹아야 한다. 이를 설명하기 힘들것임.
-  * Event-driven, pub/sub, white-board pattern 등 한 연동 (DDD) 등 loosely coupled 한 연동을 지향해야 한다.
-* 개인정보 보호 이슈:
+  -  시스템 통합에 관련한 보다 유연한 연동을 위한 Composable Enterprise 개념을 차용함
+      - Composable Enterprise는 비즈니스 요구 사항을 빠르게 충족하고 조정할 수 있는 유연하고 모듈화된 비즈니스 아키텍처를 지원하기 위해 설계된 개념입니다. 이를 위해서는 비즈니스 능력을 모듈화된 형태로 개발하고 배포할 수 있어야 합니다.
+      - Packaged Business Capabilities(PBC)는 이러한 목표를 달성하기 위한 전략 중 하나로, 비즈니스 능력을 모듈화된 형태로 개발하여 조립 가능한 구성 요소로 제공합니다. 이를 통해 조립 가능한 PBC를 이용하여 비즈니스 요구 사항을 더 빠르게 구현할 수 있습니다.
+      - CBD(Componet-Based Development)에서는 컴포넌트 또는 마이크로서비스가 PBC와 유사한 개념입니다. 그러나 PBC는 컴포넌트 또는 마이크로서비스보다 더 큰 범위의 비즈니스 능력을 가지고 있으며, 비즈니스 능력을 개발하는 것뿐만 아니라, 비즈니스 프로세스와 조직 구조를 포함한 비즈니스 전략을 모듈화하여 제공합니다. 따라서 PBC는 비즈니스 요구 사항을 더 적극적으로 충족시키고, 조직 전반에 걸쳐 재사용이 가능한 능력을 제공합니다.
+  - 다음은 각 서비스들이 PBC 의 형태가 되기 위하여 갖추어야 할 요건 들입니다:
+      - Self-descriptive : Open API (sync API), Async API, endpoint url 정보, image 정보, 구현체, 빌드 방법, Dockerfile 등의 메타데이터를 포함하고 있어야 한다. diff: 일반 helm chart에 비해…
+      - Self-contained: Front-end 요소, backend, database, 내부적인 event platform이나 infra 요소들을 모두 가지고 있고 이들을 설치 구동할 수 있는 provisioning script 가 내재된 operator 형태로 존재한다.
+      - Build-time 의 지원 (ci/cd)가 포함된다. on-prem설치, license 의 유형이 saas 형식이 아닌 licensed 혹은 오픈소스들의 빌드 단계를 동반하는 연동이 이루어질 수 있다.
+      - 특정기술에 종속되지 않아야 한다: webcomponents, open api/async api, cloud events, REST, CRI runtime (image) 등의 표준 혹은 적어도 10년 이상 유지될 수 있는 사실 표준을 준수해야 한다.
+      - business bounded: DDD 설계 전략이 녹아야 한다. 이를 설명하기 힘들것임.
+      - Event-driven, pub/sub, white-board pattern 등 한 연동 (DDD) 등 loosely coupled 한 연동을 지향해야 한다.
+  - 개인정보 보호 이슈:
 
 Event Driven Architecture(EDA)는 시스템에서 이벤트가 발생했을 때 이벤트를 처리하기 위한 아키텍처 패턴입니다. EDA를 개인정보에 대한 데이터 공유에 적용하면, 다음과 같은 문제점이 발생할 수 있습니다.
 
@@ -48,16 +48,16 @@ Event Driven Architecture(EDA)는 시스템에서 이벤트가 발생했을 때 
 
 EDA를 적용할 때에는 개인정보 보호에 대한 문제점을 고려하여 적절한 보안 조치를 취하고, 관련 법규와 규정을 준수하는 것이 중요합니다. - polyglot 언어, polyglot persistency 등… 을 지원할 수 있어야 한다.. . machine learning 등, 분석 PBCs, IoT (Digital Twins) 에 대한 이벤트를 수신 분석 할 수 있어야 하는 비동기 지원이 필수이다. 비동기성.
 
-* 설계원칙에 + CNA attibutes, digital twin composable enterprises 등을 출처로\
-  \
+  - 설계원칙에 + CNA attibutes, digital twin composable enterprises 등을 출처로
 
-* 아키텍처 - 기존 레가시, 동기/비동기, acid tx vs. base tx - tp monitor, RBAC, scale, 정부24, 개인톡, …활동계획, 킬러시나리오→ Reference Implementation Open Source Project
+  - 아키텍처 - 기존 레가시, 동기/비동기, acid tx vs. base tx - tp monitor, RBAC, scale, 정부24, 개인톡, …활동계획, 킬러시나리eference Implementation Open Source Project
 
 ![Alt text](image-3.png)
 
-*   이벤트 스트림 플랫폼
+  
+  - 이벤트 스트림 플랫폼
 
-    * 이벤트 스트림 브로커
+    - 이벤트 스트림 브로커
 
     이벤트 스트림 플랫폼(Event Stream Platform)은 대규모 실시간 이벤트 처리를 위한 인프라를 제공하는 데이터 플랫폼입니다. 이벤트 스트림 플랫폼은 대규모 이벤트 데이터를 수집하고 분석하여 실시간으로 유용한 인사이트를 도출하는 데 사용됩니다.
 
@@ -69,28 +69,6 @@ EDA를 적용할 때에는 개인정보 보호에 대한 문제점을 고려하�
 
     서비스들간의 연동관계를 비즈니스 프로세스를 기준으로 관리하기 위한 종합적인 시스템입니다. BPMS의 구성요소에는 다음과 같은 것들이 있습니다:
 
-<<<<<<< HEAD
-    1. Process Modeling Tool: BPMS에서 프로세스를 모델링하기 위한 도구입니다. 이
-도구를 사용하여 프로세스의 다양한 단계와 작업을 시각화하고, 비즈니스 규칙,
-프로세스 흐름 및 상호 작용 등을 정의할 수 있습니다.
-    2. Business Rules Engine: BPMS는 비즈니스 규칙을 적용하기 위한 Business Rules
-Engine을 포함합니다. 이 엔진은 프로세스의 동작에 영향을 미치는 다양한 규칙과
-조건을 정의할 수 있습니다.
-    3. Workflow Engine: BPMS는 Workflow Engine을 통해 프로세스를 자동화하고 실행할
-수 있습니다. Workflow Engine은 프로세스의 각 단계에서 수행되어야 하는 작업을
-지정하고, 각 작업을 적절한 시간에 실행합니다.
-    4. Business Activity Monitoring (BAM) Tool: BPMS는 BAM 도구를 사용하여 프로세스
-실행 및 성능을 모니터링합니다. 이 도구를 사용하면 프로세스 실행 중에 예외
-사항이 발생하면 즉시 대응할 수 있습니다.
-    5. Collaboration Tools: BPMS는 다양한 협업 도구를 포함합니다. 이러한 도구는
-사용자가 프로세스를 공동으로 작업하고, 팀 간 효율적인 의사 소통을 지원합니다.
-    6. Integration Tools: BPMS는 시스템 간 데이터 통합을 위한 다양한 통합 도구를
-제공합니다. 이러한 도구는 외부 시스템과의 데이터 통합을 용이하게 해주며, 다른
-애플리케이션과의 통합도 가능합니다.
-    7. Analytics Tools: BPMS는 다양한 분석 도구를 제공하여 프로세스 실행 및 성능에
-대한 분석을 수행할 수 있습니다. 이러한 분석 도구를 사용하면 프로세스의 병목
-현상을 식별하고, 향후 개선을 위한 방향성을 제시할 수 있습니다.
-=======
     1. Process Modeling Tool: BPMS에서 프로세스를 모델링하기 위한 도구입니다. 이 도구를 사용하여 프로세스의 다양한 단계와 작업을 시각화하고, 비즈니스 규칙, 프로세스 흐름 및 상호 작용 등을 정의할 수 있습니다.
     2. Business Rules Engine: BPMS는 비즈니스 규칙을 적용하기 위한 Business Rules Engine을 포함합니다. 이 엔진은 프로세스의 동작에 영향을 미치는 다양한 규칙과 조건을 정의할 수 있습니다.
     3. Workflow Engine: BPMS는 Workflow Engine을 통해 프로세스를 자동화하고 실행할 수 있습니다. Workflow Engine은 프로세스의 각 단계에서 수행되어야 하는 작업을 지정하고, 각 작업을 적절한 시간에 실행합니다.
@@ -98,9 +76,9 @@ Engine을 포함합니다. 이 엔진은 프로세스의 동작에 영향을 미
     5. Collaboration Tools: BPMS는 다양한 협업 도구를 포함합니다. 이러한 도구는 사용자가 프로세스를 공동으로 작업하고, 팀 간 효율적인 의사 소통을 지원합니다.
     6. Integration Tools: BPMS는 시스템 간 데이터 통합을 위한 다양한 통합 도구를 제공합니다. 이러한 도구는 외부 시스템과의 데이터 통합을 용이하게 해주며, 다른 애플리케이션과의 통합도 가능합니다.
     7. Analytics Tools: BPMS는 다양한 분석 도구를 제공하여 프로세스 실행 및 성능에 대한 분석을 수행할 수 있습니다. 이러한 분석 도구를 사용하면 프로세스의 병목 현상을 식별하고, 향후 개선을 위한 방향성을 제시할 수 있습니다.
-    8. 데이터 통합 엔진
+
+    - 데이터 통합 엔진
 *   데이터 매시 기반의 통합 엔진
->>>>>>> 658ae36590b420941797b29c599f1784d03dd145
 
     데이터 메시 (Data Mesh)는 분산 시스템 아키텍처를 적용하여 조직 내부에서 데이터를 관리하는 방식입니다. 이는 기업 내에서 데이터 품질과 데이터 접근성을 개선하며, 데이터를 팀이나 도메인 간에 공유하고 재사용하기 쉽게 만듭니다.
 
@@ -129,8 +107,7 @@ Engine을 포함합니다. 이 엔진은 프로세스의 동작에 영향을 미
 4. 모델 배포: 모델 배포를 자동화하여, 실시간 예측을 수행할 수 있도록 합니다. 이를 위해 서버리스 아키텍처를 활용하며, 모델을 컨테이너화하여 배포합니다.
 5. 모델 모니터링: 배포된 모델의 성능을 모니터링하고, 필요한 경우 모델을 재학습합니다. 이를 위해 모델 성능 지표를 정의하고, 이를 기반으로 모델의 성능을 평가합니다.
 
-MLOps 아키텍처를 구성함으로써, 머신 러닝 모델을 효과적으로 개발하고 운영할 수 있습니다. 이를 통해 머신 러닝 모델의 개발과 배포 시간을 단축하고, 모델의 신뢰성과 성능을 개선할 수 있습니다.\
-\
+MLOps 아키텍처를 구성함으로써, 머신 러닝 모델을 효과적으로 개발하고 운영할 수 있습니다. 이를 통해 머신 러닝 모델의 개발과 배포 시간을 단축하고, 모델의 신뢰성과 성능을 개선할 수 있습니다.
 
 
 *   데이터 변환 도구
@@ -144,8 +121,8 @@ MLOps 아키텍처를 구성함으로써, 머신 러닝 모델을 효과적으�
 
     이러한 방법들은 이벤트 기반 아키텍처에서 메시지 포맷을 표준화하는 데 유용합니다. 각 방법의 장단점과 상황에 따라 적절한 방법을 선택하여 사용하는 것이 중요합니다.
 
-    * 프레젠테이션 / 인증 플랫폼
-      * 마이크로 프론트엔드 매시업 플랫폼
+    - 프레젠테이션 / 인증 플랫폼
+      - 마이크로 프론트엔드 매시업 플랫폼
 
     마이크로 프론트엔드 매시업 플랫폼은 기업에서 다양한 기술 스택과 프레임워크를 사용하는 서로 다른 팀이 협업하여 큰 규모의 UI 애플리케이션을 개발할 때 발생하는 문제를 해결하기 위한 솔루션입니다.
 
@@ -255,8 +232,7 @@ OAuth2 인증은 PDS와 다른 서비스 간의 인증 프로토콜입니다. OA
 
 Event Driven Architecture는 PDS에서 이벤트가 발생할 때 데이터를 전송하는 방식입니다. 이벤트가 발생하면 PDS는 이를 다른 서비스에 전송합니다. 예를 들어, 사용자가 PDS에서 데이터를 업로드하면 PDS는 이를 다른 서비스에 전송합니다. 이를 통해 사용자는 데이터를 안전하게 공유할 수 있습니다.
 
-\
-\
+<br>
 참고문헌
 
 1. Evolving API Management into a Harmonized API-led Interoperability Framework, [https://medium.com/api-center/evolving-api-management-into-a-harmonized-api-led-interoperability-framework-c35c7c8c4674](https://medium.com/api-center/evolving-api-management-into-a-harmonized-api-led-interoperability-framework-c35c7c8c4674)
@@ -274,8 +250,7 @@ Event Driven Architecture는 PDS에서 이벤트가 발생할 때 데이터를 �
 13. Securing APIs with an Integrated Security Framework | by TRGoodwill | API Central | Medium,
 14. What is Backstage? | Backstage Software Catalog and Developer Platform
 
-\
-\
+<br>
 국가 DevOps 플랫폼
 
 ![biz/dev/ops](image-10.png)
