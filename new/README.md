@@ -254,6 +254,7 @@ Event Driven Architecture는 PDS에서 이벤트가 발생할 때 데이터를 �
 
 ![biz/dev/ops](image-10.png)
 
+<br>
 <style>
   table, tr, th, td {
     border: 1px solid #333;
